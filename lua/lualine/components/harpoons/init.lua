@@ -128,7 +128,7 @@ function M:harpoons(options)
 		end
 	end
 
-	local always_show_current = options.always_show_current or true
+	local always_show_current = self.options.always_show_current or true
 	if always_show_current and (not currIsHarpoon) then
 		table.insert(harpoons, self:new_harpoon())
 	end
