@@ -30,6 +30,7 @@ local default_options = {
 		alternate_file = "#",
 		directory = "",
 	},
+	always_show_current = true,
 }
 
 -- This function is duplicated in tabs
@@ -54,9 +55,9 @@ function M:init(options)
 	M.super.init(self, options)
 	-- if use_mode_colors is set, use a function so that the colors update
 	local default_active = options.use_mode_colors
-			and function()
-				return get_hl("lualine_" .. options.self.section, true)
-			end
+		and function()
+			return get_hl("lualine_" .. options.self.section, true)
+		end
 		or get_hl("lualine_" .. options.self.section, true)
 	default_options.harpoons_color = {
 		active = default_active,
@@ -97,7 +98,7 @@ function M:new_harpoon(hpnr, bufnr)
 	})
 end
 
-function M:harpoons()
+function M:harpoons(options)
 	local buffers = {}
 	local harpoons = {}
 	for _, b in pairs(vim.api.nvim_list_bufs()) do
@@ -127,7 +128,8 @@ function M:harpoons()
 		end
 	end
 
-	if not currIsHarpoon then
+	local always_show_current = options.always_show_current or true
+	if always_show_current and (not currIsHarpoon) then
 		table.insert(harpoons, self:new_harpoon())
 	end
 
